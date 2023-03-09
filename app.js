@@ -1,6 +1,7 @@
 const express = require('express');
 
 const app = express();
+const routes = require('./routes');
 
 module.exports = (config) => {
   const log = config.log();
@@ -11,6 +12,8 @@ module.exports = (config) => {
       return next();
     });
   }
+
+  app.use('/', routes());
 
   app.use((error, req, res) => {
     res.status(error.status || 500);
