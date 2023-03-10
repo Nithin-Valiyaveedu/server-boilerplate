@@ -23,5 +23,6 @@ module.exports = {
     'prefer-const': 'error',
     'no-use-before-define': 'error',
     'class-methods-use-this': 'off',
+    'consistent-return': 'off',
   },
 };
