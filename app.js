@@ -17,7 +17,7 @@ module.exports = (config) => {
     });
   }
 
-  app.use('/', routes({testService}));
+  app.use('/', routes({ testService }));
 
   app.use((error, req, res) => {
     res.status(error.status || 500);
