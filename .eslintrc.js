@@ -22,5 +22,6 @@ module.exports = {
     'no-multiple-empty-lines': 'error',
     'prefer-const': 'error',
     'no-use-before-define': 'error',
+    'class-methods-use-this': 'off',
   },
 };
