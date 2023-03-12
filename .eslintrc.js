@@ -24,5 +24,8 @@ module.exports = {
     'no-use-before-define': 'error',
     'class-methods-use-this': 'off',
     'consistent-return': 'off',
+    devDependencies: false,
+    optionalDependencies: false,
+    peerDependencies: false,
   },
 };
