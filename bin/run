@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const http = require('http');
 const Sequelize = require('sequelize');
 
@@ -8,27 +6,52 @@ const config = require('../config')[process.env.NODE_ENV || 'development'];
 const log = config.log();
 const app = require('../app')(config);
 
-async function connectToPostgres() {
-  const sequelize = new Sequelize(config.postgres.options);
-  try {
-    await sequelize.authenticate();
-    log.info('Connection has been established successfully');
-    return sequelize;
-  } catch (error) {
-    log.error('Unable to connect to the database:', error);
-  }
+const sequelize = new Sequelize(config.postgres.options);
+
+function connectToPostgres() {
+  sequelize
+    .authenticate()
+    .then(() => {
+      log.info('Connection has been established successfully.');
+    })
+    .catch((error) => {
+      log.error('Unable to connect to the database:', error);
+      process.exit(1);
+    });
+
+  return sequelize;
 }
 
 config.postgres.client = connectToPostgres();
 
 const server = http.createServer(app);
 
-server.listen(process.env.PORT || 3000);
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+  const bind = typeof port === 'string' ? `Pipe ${port}` : `Port  ${port}`;
 
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      log.error(`${bind} requires elevated privileges`);
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      log.error(`${bind} is already in use`);
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+server.on('error', onError);
 server.on('listening', () => {
   log.info(
-    `Listening on port ${server.address().port} in ${app.get(
-      'env',
-    )} mode.`,
+    `Listening on port ${server.address().port} in ${app.get('env')} mode.`
   );
 });
+
+server.listen(process.env.PORT || 3000);
