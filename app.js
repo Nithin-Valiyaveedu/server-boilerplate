@@ -3,12 +3,8 @@ const express = require('express');
 const app = express();
 const routes = require('./routes');
 
-const TestServices = require('./services/TestService');
-
 module.exports = (config) => {
   const log = config.log();
-
-  const testService = new TestServices();
 
   if (app.get('env') === 'development') {
     app.use((req, res, next) => {
@@ -17,7 +13,7 @@ module.exports = (config) => {
     });
   }
 
-  app.use('/', routes({ testService }));
+  app.use('/', routes(config));
 
   app.use((error, req, res) => {
     res.status(error.status || 500);

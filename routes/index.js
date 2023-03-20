@@ -4,12 +4,12 @@ const router = express.Router();
 
 const testRoutes = require('./test');
 
-module.exports = (params) => {
+module.exports = (config) => {
   router.get('/', (req, res) => {
     res.send('Boiler Plate Server Code');
   });
 
-  router.use('/test', testRoutes(params.testService));
+  router.use('/test', testRoutes(config));
 
   return router;
 };
