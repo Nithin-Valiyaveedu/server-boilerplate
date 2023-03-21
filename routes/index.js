@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const testRoutes = require('./test');
+const userRoutes = require('./users');
 
 module.exports = (config) => {
   router.get('/', (req, res) => {
@@ -10,6 +11,7 @@ module.exports = (config) => {
   });
 
   router.use('/test', testRoutes(config));
+  router.use('/user', userRoutes(config));
 
   return router;
 };

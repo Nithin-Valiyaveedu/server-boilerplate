@@ -1,4 +1,4 @@
-const Models = require('../models/index.js');
+const Models = require('../models/test');
 
 class TestService {
   constructor(sequelize) {
